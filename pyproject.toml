@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nifti-qc"
+version = "0.1.0"
+description = "Catch silently-broken NIfTI geometry (qform/sform mismatch, bad affines, misaligned inputs) before it ruins your results."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Cedric Conday", email = "neumann.alpha@gmail.com" }]
+keywords = ["nifti", "neuroimaging", "mri", "qc", "qform", "sform", "affine", "bids"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+dependencies = ["nibabel>=3.2", "numpy>=1.20"]
+
+[project.optional-dependencies]
+test = ["pytest>=7.0"]
+
+[project.urls]
+Homepage = "https://github.com/CedricConday/nifti-qc"
+Issues = "https://github.com/CedricConday/nifti-qc/issues"
+
+[project.scripts]
+nifti-qc = "nifti_qc.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nifti_qc"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
