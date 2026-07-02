@@ -20,6 +20,9 @@ of in a downstream result three steps later.
 > ([CompImg/LST-AI#45](https://github.com/CompImg/LST-AI/pull/45)), where a
 > qform/sform mismatch mislocated lesion masks in FLAIR space.
 
+📖 **Deep dive:** [The qform/sform trap in practice](docs/qform-sform-in-practice.md) —
+why the bug happens, a runnable reproduction, and how to decide the fix.
+
 ## Install
 
 ```bash
