@@ -1,0 +1,22 @@
+name: 'nifti-qc — NIfTI geometry QC'
+description: 'Fail CI when NIfTI geometry is silently broken (qform/sform mismatch, bad affines, misaligned inputs).'
+branding:
+  icon: 'check-circle'
+  color: 'blue'
+inputs:
+  paths:
+    description: 'NIfTI file(s) to check, space-separated (shell globs allowed).'
+    required: true
+  args:
+    description: 'Extra flags passed to `nifti-qc scan` (e.g. "--no-align").'
+    required: false
+    default: ''
+runs:
+  using: 'composite'
+  steps:
+    - name: Install nifti-qc
+      shell: bash
+      run: pip install "${{ github.action_path }}"
+    - name: Run geometry QC
+      shell: bash
+      run: nifti-qc scan ${{ inputs.args }} ${{ inputs.paths }}

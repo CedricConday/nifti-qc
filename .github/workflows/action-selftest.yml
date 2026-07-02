@@ -1,0 +1,31 @@
+name: action-selftest
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Dogfood the composite action against a freshly-generated, geometry-clean
+# NIfTI so the Action itself is proven to run green on every push.
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate a clean sample NIfTI
+        run: |
+          pip install numpy nibabel
+          python - <<'PY'
+          import numpy as np, nibabel as nib
+          img = nib.Nifti1Image(np.ones((8, 8, 8), np.float32), np.eye(4))
+          img.set_qform(np.eye(4), code=1)
+          img.set_sform(np.eye(4), code=1)
+          nib.save(img, "sample.nii.gz")
+          PY
+      - name: Run the nifti-qc action
+        uses: ./
+        with:
+          paths: sample.nii.gz

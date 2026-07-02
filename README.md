@@ -62,6 +62,19 @@ drops straight into a CI step or a pre-processing script as a gate:
 nifti-qc scan "$T1" "$FLAIR" || { echo "fix your inputs first"; exit 1; }
 ```
 
+## Use it in CI (GitHub Action)
+
+A composite Action ships with the repo, so a workflow can gate on NIfTI
+geometry with no setup — the job fails if any file has an error-severity
+problem:
+
+```yaml
+- uses: CedricConday/nifti-qc@main
+  with:
+    paths: data/*.nii.gz
+    # args: "--no-align"   # optional flags for `nifti-qc scan`
+```
+
 ## Use it as a library
 
 ```python
