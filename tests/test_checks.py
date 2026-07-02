@@ -170,3 +170,21 @@ def test_scan_file_roundtrip(write_img):
     report = scan_file(path)
     assert not report.ok
     assert report.n_errors >= 1
+
+
+# --- orientation_label ----------------------------------------------------
+
+def test_orientation_label_identity_is_ras():
+    from nifti_qc import orientation_label
+
+    img = make_img(sform=np.eye(4), scode=1)
+    assert orientation_label(img) == "RAS"
+
+
+def test_orientation_label_reflects_axis_flips():
+    from nifti_qc import orientation_label
+
+    # Negating the x and y axes flips R->L and A->P; z stays S.
+    sform = np.diag([-1.0, -1.0, 1.0, 1.0])
+    img = make_img(sform=sform, scode=1)
+    assert orientation_label(img) == "LPS"
