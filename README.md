@@ -26,7 +26,7 @@ why the bug happens, a runnable reproduction, and how to decide the fix.
 ## Install
 
 ```bash
-pip install nifti-qc          # once published
+pip install nifti-qc
 # or from source:
 pip install -e .
 ```
